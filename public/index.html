@@ -19,14 +19,34 @@
   <div id="allmap"></div>
 
 <script type="text/javascript">
-  // 百度地图API功能
-  var map = new BMap.Map("allmap");
-  map.centerAndZoom(new BMap.Point(116.404, 39.915), 12);
-  var ctrl = new BMapLib.TrafficControl({
-    showPanel: false //是否显示路况提示面板
-  });
-  map.addControl(ctrl);
-  ctrl.setAnchor(BMAP_ANCHOR_BOTTOM_RIGHT);
+	// 百度地图API功能
+	var map = new BMap.Map("allmap");
+	var point = new BMap.Point(116.404, 39.915);
+	map.centerAndZoom(point, 15);
+
+	var data = [
+		{
+			lng: 116.399, // 经度
+			lat: 39.910 // 纬度
+		},
+		{
+			lng: 116.405,
+			lat: 39.920
+		},
+		{
+			lng: 116.425,
+			lat: 39.900
+		},
+	];
+	var points = [];
+
+	for(var i=0; i<data.length; i++){
+		points.push(new BMap.Point(data[i].lng, data[i].lat))
+	}
+
+	var polyline = new BMap.Polyline(points, {strokeColor:"blue", strokeWeight:2, strokeOpacity:0.5});   //创建折线
+
+	map.addOverlay(polyline); //增加折线
 </script>
 
 </body>
