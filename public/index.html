@@ -23,30 +23,81 @@
 	var map = new BMap.Map("allmap");
 	var point = new BMap.Point(116.404, 39.915);
 	map.centerAndZoom(point, 15);
+	map.enableScrollWheelZoom(true);
 
-	var data = [
+	//西什库大街	15
+	var mock1 = `39.9239398871528 116.378855794271,39.9237771267361 116.378840060764,39.9236707899306 116.378836534288,39.9226456705729 116.37888156467`;
+
+	//西什库大街	1
+	var mock2 = `39.9289876302083 116.379818522135,39.9281640625 116.379904242622,39.927805718316 116.37993625217`;
+
+	//首都体育馆南路
+	var mock3 = `39.9348711480035 116.325673014323,39.9349956597222 116.325673014323,39.9350341796875 116.325671657986`;
+
+	// 知春路
+	var mock4 = `39.9765681966146 116.354291178385,39.9765700954861 116.353389756944`;
+
+	var mocks = [
 		{
-			lng: 116.399, // 经度
-			lat: 39.910 // 纬度
+			1: mock1
 		},
 		{
-			lng: 116.405,
-			lat: 39.920
+			2: mock2,
 		},
 		{
-			lng: 116.425,
-			lat: 39.900
+			3: mock3,
 		},
+		{
+			4: mock4,
+		}
 	];
-	var points = [];
+
+	var data = [];
+	for(var j=0; j<mocks.length; j++){
+		var arr = mocks[j][Object.keys(mocks[j])].split(',');
+		for(var i =0; i<arr.length; i++){
+			var obj = {
+				lng: arr[i].substring(arr[i].indexOf(' ')+1, arr[i].length), // 经度
+				lat: arr[i].substring(0, arr[i].indexOf(' ')) // 纬度
+			}
+			console.log(obj, '<---obj');
+			if (data[j]) {
+				data[j].push(obj);
+			} else {
+				data[j] = [];
+				data[j].push(obj);
+			}
+
+		}
+	}
+	console.log(data, '<---data');
+
+
+	// var data = [
+	// 	{
+	// 		lng: 116.399, // 经度
+	// 		lat: 39.910 // 纬度
+	// 	},
+	// 	{
+	// 		lng: 116.405,
+	// 		lat: 39.920
+	// 	},
+	// 	{
+	// 		lng: 116.425,
+	// 		lat: 39.900
+	// 	},
+	// ];
 
 	for(var i=0; i<data.length; i++){
-		points.push(new BMap.Point(data[i].lng, data[i].lat))
+		var points = [];
+		for(var j=0; j<data[i].length; j++){
+			points.push(new BMap.Point(data[i][j].lng, data[i][j].lat))
+		}
+		console.log(points, '<---points');
+		var polyline = new BMap.Polyline(points, {strokeColor:"blue", strokeWeight:20, strokeOpacity:0.5});   //创建折线
+		map.addOverlay(polyline); //增加折线
 	}
 
-	var polyline = new BMap.Polyline(points, {strokeColor:"blue", strokeWeight:2, strokeOpacity:0.5});   //创建折线
-
-	map.addOverlay(polyline); //增加折线
 </script>
 
 </body>
