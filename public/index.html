@@ -27,34 +27,46 @@
 
 	//西什库大街	15
 	var mock1 = `39.9239398871528 116.378855794271,39.9237771267361 116.378840060764,39.9236707899306 116.378836534288,39.9226456705729 116.37888156467`;
-
 	//西什库大街	1
 	var mock2 = `39.9289876302083 116.379818522135,39.9281640625 116.379904242622,39.927805718316 116.37993625217`;
-
 	//首都体育馆南路
 	var mock3 = `39.9348711480035 116.325673014323,39.9349956597222 116.325673014323,39.9350341796875 116.325671657986`;
-
 	// 知春路
 	var mock4 = `39.9765681966146 116.354291178385,39.9765700954861 116.353389756944`;
-
 	var mocks = [
 		{
-			1: mock1
+			id: 1,
+			mock: mock1,
+			status: 1
 		},
 		{
-			2: mock2,
+			id: 2,
+			mock: mock2,
+			status: 2
 		},
 		{
-			3: mock3,
+			id: 3,
+			mock: mock3,
+			status: 3
 		},
 		{
-			4: mock4,
+			id: 4,
+			mock: mock4,
+			status: 1
 		}
 	];
 
+	// data = [
+	// 	{
+	// 		id: 1,
+	// 		data: [],
+	// 		status: 1
+	// 	},
+	// 	{}
+	// ]
 	var data = [];
 	for(var j=0; j<mocks.length; j++){
-		var arr = mocks[j][Object.keys(mocks[j])].split(',');
+		var arr = mocks[j].mock.split(',');
 		for(var i =0; i<arr.length; i++){
 			var obj = {
 				lng: arr[i].substring(arr[i].indexOf(' ')+1, arr[i].length), // 经度
@@ -71,7 +83,6 @@
 		}
 	}
 	console.log(data, '<---data');
-
 
 	// var data = [
 	// 	{
@@ -90,11 +101,20 @@
 
 	for(var i=0; i<data.length; i++){
 		var points = [];
+		var status = mocks[i].status;
+		var color = 'red';
+		if(status === '1' ){
+			color = 'green';
+		}else if (status === '2'){
+			color = 'yellow';
+		}else{
+			color = 'red';
+		}
 		for(var j=0; j<data[i].length; j++){
 			points.push(new BMap.Point(data[i][j].lng, data[i][j].lat))
 		}
 		console.log(points, '<---points');
-		var polyline = new BMap.Polyline(points, {strokeColor:"blue", strokeWeight:20, strokeOpacity:0.5});   //创建折线
+		var polyline = new BMap.Polyline(points, {strokeColor:color, strokeWeight:20, strokeOpacity:0.5});   //创建折线
 		map.addOverlay(polyline); //增加折线
 	}
 
