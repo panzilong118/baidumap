@@ -115,13 +115,13 @@
 	for(var i=0; i<data.length; i++){
 		var points = [];
 		var status = mocks[i].status;
-		var color = 'red';
+		var color = '#E55151';
 		if(status === '1' ){
-			color = 'green';
+			color = '#58CF51';
 		}else if (status === '2'){
-			color = 'yellow';
+			color = '#ECC500';
 		}else{
-			color = 'red';
+			color = '#E55151';
 		}
 		for(var j=0; j<data[i].length; j++){
 			points.push(new BMap.Point(data[i][j].lng, data[i][j].lat))
